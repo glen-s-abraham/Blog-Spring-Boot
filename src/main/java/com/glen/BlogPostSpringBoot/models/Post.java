@@ -1,15 +1,21 @@
 package com.glen.BlogPostSpringBoot.models;
 
-import java.io.Serializable;
+
+
+import java.util.List;
+
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
-public class Post implements Serializable{
+public class Post{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="post_sequence")
@@ -20,6 +26,10 @@ public class Post implements Serializable{
 	Long id;
 	String title;
 	String body;
+	
+	@OneToMany(mappedBy = "post")
+	@JsonIgnore
+	List<PostComment> comments;
 	
 	public Post() {
 		
@@ -64,6 +74,16 @@ public class Post implements Serializable{
 	public String toString() {
 		return "Post [id=" + id + ", title=" + title + ", body=" + body + "]";
 	}
+
+	public List<PostComment> getComments() {
+		return comments;
+	}
+
+	public void setComments(PostComment comment) {
+		this.comments.add(comment);
+		comment.setPost(this);
+	}
+	
 	
 	
 	

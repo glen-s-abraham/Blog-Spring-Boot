@@ -50,6 +50,10 @@ public class PostService {
 		postRepository.delete(postToDelete);
 		return postToDelete;
 	}
+	
+	public PostRepository getPostRepository() {
+		return this.postRepository;
+	}
 
 	
 }

@@ -18,19 +18,19 @@ import com.glen.BlogPostSpringBoot.repositories.PostRepository;
 public class PostCommentService {
 	
 	
-	PostRepository postRepository;
+	PostService postService;
 	PostCommentRepository postCommentRepository;
 	
 	@Autowired
 	public PostCommentService(
-			PostRepository postRepository,
+			PostService postService,
 			PostCommentRepository postCommentRepository) {
 		this.postCommentRepository=postCommentRepository;
-		this.postRepository=postRepository;
+		this.postService=postService;
 	}
 	
 	public PostComment createNewComment(Long postId, PostComment comment) {		
-		Post postToAddCommentTo = postRepository.findById(postId).orElse(null);
+		Post postToAddCommentTo = postService.getSinglePost(postId);
 		if(postToAddCommentTo!=null) {
 			comment.setPost(postToAddCommentTo);
 			PostComment newComment=postCommentRepository.save(comment);
@@ -40,12 +40,37 @@ public class PostCommentService {
 	}
 
 	public List<PostComment> getCommentsOnPost(Long postId) {
-		Post postToAddCommentTo = postRepository.findById(postId).orElse(null);
+		Post postToAddCommentTo = postService.getSinglePost(postId);
 		if(postToAddCommentTo!=null) {
 			System.out.println(postToAddCommentTo.getComments());
 			return postToAddCommentTo.getComments();
 		}
 		return null;
+	}
+
+	public PostComment deleteComment(Long commentId) {
+		PostComment commentToDelete = postCommentRepository.findById(commentId)
+				.orElse(null);
+		if(commentToDelete!=null) {
+			postCommentRepository.delete(commentToDelete);
+			return commentToDelete;
+		}
+		return null;
+	}
+
+	public PostComment editComment(Long commentId, String body) {
+		PostComment commentToEdit = postCommentRepository.findById(commentId)
+				.orElse(null);
+		if(commentToEdit!=null) {
+			if(!body.equals(null)) {
+				commentToEdit.setBody(body);
+				postCommentRepository.save(commentToEdit);
+				return commentToEdit;
+			}
+		}
+		return null;
+		
+		
 	}
 	
 

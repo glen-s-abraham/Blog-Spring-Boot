@@ -32,7 +32,7 @@ public class PostCommentController {
 	@PostMapping("post/{postId}/comment")
 	public PostComment addNewComment(
 			@PathVariable("postId")Long postId,
-			@ModelAttribute PostComment comment
+			@RequestBody PostComment comment
 	) {
 		
 		return commentService.createNewComment(postId,comment);

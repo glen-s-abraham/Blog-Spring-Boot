@@ -1,12 +1,14 @@
 package com.glen.BlogPostSpringBoot.services;
 
-import java.util.List;
 
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
+import com.glen.BlogPostSpringBoot.payloads.PostResponse;
 import com.glen.BlogPostSpringBoot.models.Post;
 import com.glen.BlogPostSpringBoot.repositories.PostRepository;
 
@@ -15,8 +17,19 @@ public class PostService {
 	@Autowired
 	PostRepository postRepository;
 	
-	public List<Post> getAllPosts(){
-		return postRepository.findAll();
+	public PostResponse getAllPosts(Integer pageNo,Integer pageSize){
+		Pageable pageable = PageRequest.of(pageNo, pageSize);
+		Page<Post> posts = postRepository.findAll(pageable);
+		return new PostResponse(
+				posts.getContent(),
+				posts.getNumber(),
+				posts.getSize(),
+				posts.getTotalElements(),
+				posts.getTotalPages(),
+				posts.isLast()
+		);
+		
+		
 	}
 	
 	public Post getSinglePost(Long id) {

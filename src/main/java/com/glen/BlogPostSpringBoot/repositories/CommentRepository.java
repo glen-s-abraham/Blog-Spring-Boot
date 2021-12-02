@@ -6,9 +6,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 
-import com.glen.BlogPostSpringBoot.models.PostComment;
+import com.glen.BlogPostSpringBoot.models.Comment;
 
 @Repository
-public interface PostCommentRepository extends JpaRepository<PostComment, Long>{
+public interface CommentRepository extends JpaRepository<Comment, Long>{
 
 }

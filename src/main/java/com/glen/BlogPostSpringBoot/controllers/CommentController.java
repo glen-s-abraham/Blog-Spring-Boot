@@ -14,39 +14,39 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.glen.BlogPostSpringBoot.models.PostComment;
-import com.glen.BlogPostSpringBoot.services.PostCommentService;
+import com.glen.BlogPostSpringBoot.models.Comment;
+import com.glen.BlogPostSpringBoot.services.CommentService;
 
 @RestController
 @RequestMapping("/api/")
-public class PostCommentController {
+public class CommentController {
 	
 	@Autowired
-	PostCommentService commentService;
+	CommentService commentService;
 	
 	@GetMapping("post/{postId}/comment")
-	public List<PostComment> getComments(@PathVariable("postId")Long postId) {
+	public List<Comment> getComments(@PathVariable("postId")Long postId) {
 		return commentService.getCommentsOnPost(postId);
 	}
 	
 	@PostMapping("post/{postId}/comment")
-	public PostComment addNewComment(
+	public Comment addNewComment(
 			@PathVariable("postId")Long postId,
-			@RequestBody PostComment comment
+			@RequestBody Comment comment
 	) {
 		
 		return commentService.createNewComment(postId,comment);
 	}
 	
 	@DeleteMapping("comment/{commentId}")
-	public PostComment deleteComment(
+	public Comment deleteComment(
 			@PathVariable("commentId")Long commentId
 	) {
 		return commentService.deleteComment(commentId);
 	}
 	
 	@PutMapping("comment/{commentId}")
-	public PostComment editComment(
+	public Comment editComment(
 			@PathVariable("commentId")Long commentId,
 			@RequestParam("body") String body
 	) {

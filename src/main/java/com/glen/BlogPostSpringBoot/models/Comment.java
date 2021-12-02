@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
 @Entity
-public class PostComment {
+public class Comment {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "comment_sequence")
 	@SequenceGenerator(
@@ -29,17 +29,17 @@ public class PostComment {
 	@JsonIgnore
 	Post post;
 	
-	public PostComment() {
+	public Comment() {
 		
 	}
 	
 	
-	public PostComment(Long id, String body, Post post) {
+	public Comment(Long id, String body, Post post) {
 		this.body = body;
 		this.post = post;
 	}
 	
-	public PostComment(String body, Post post) {
+	public Comment(String body, Post post) {
 		this.body = body;
 		this.post = post;
 	}

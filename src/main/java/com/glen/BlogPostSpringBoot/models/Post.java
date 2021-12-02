@@ -14,6 +14,13 @@ import javax.persistence.SequenceGenerator;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+
+
 @Entity
 public class Post{
 	
@@ -23,13 +30,13 @@ public class Post{
 		sequenceName = "post_sequence",
 		allocationSize = 1
 	)
-	Long id;
-	String title;
-	String body;
+	private Long id;
+	private String title;
+	private String body;
 	
 	@OneToMany(mappedBy = "post")
 	@JsonIgnore
-	List<PostComment> comments;
+	private List<Comment> comments;
 	
 	public Post() {
 		
@@ -75,11 +82,11 @@ public class Post{
 		return "Post [id=" + id + ", title=" + title + ", body=" + body + "]";
 	}
 
-	public List<PostComment> getComments() {
+	public List<Comment> getComments() {
 		return comments;
 	}
 
-	public void setComments(PostComment comment) {
+	public void setComments(Comment comment) {
 		this.comments.add(comment);
 		comment.setPost(this);
 	}

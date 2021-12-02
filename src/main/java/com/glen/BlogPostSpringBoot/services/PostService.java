@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import com.glen.BlogPostSpringBoot.payloads.PostResponse;
 import com.glen.BlogPostSpringBoot.models.Post;
@@ -17,8 +18,12 @@ public class PostService {
 	@Autowired
 	PostRepository postRepository;
 	
-	public PostResponse getAllPosts(Integer pageNo,Integer pageSize){
-		Pageable pageable = PageRequest.of(pageNo, pageSize);
+	public PostResponse getAllPosts(
+			Integer pageNo,Integer pageSize,String sortBy,String sortDir
+	){
+		Sort sort=sortDir.equalsIgnoreCase(Sort.Direction.ASC.name())?
+				Sort.by(sortBy).ascending():Sort.by(sortBy).descending();
+		Pageable pageable = PageRequest.of(pageNo, pageSize,sort);
 		Page<Post> posts = postRepository.findAll(pageable);
 		return new PostResponse(
 				posts.getContent(),
